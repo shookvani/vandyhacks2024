@@ -1,3 +1,6 @@
+import java.util.*;
+import java.io.*;
+
 public class Battleship{
     //Instance variables and arrays
     private static String[][] board = new String[10][10];
@@ -14,6 +17,10 @@ public class Battleship{
     private static int[] one = new int[2]; //Dinghy
 
     //Game stats
+    public static String playerName ="";
+    private static String[] leaderNames = {"Iven", "Schmidty bang bang", "Good Luck Charlie",
+            "Matthew", "Charles Edwards", "Sean", "Vicky Calvin", "Nathan"};
+    private static int[] leaderScores = {310,295, 285, 280, 275, 270, 265, 230};
     private static int score = 0;
     private static int hit = 0;
     private static int miss = 0;
@@ -474,7 +481,7 @@ public class Battleship{
 
         newSunks = 0;
         for(int i = 0; i < sunks.length; i++){
-            if (sunks[i] == true){
+            if (sunks[i]){
                 newSunks++;
             }
         }
@@ -502,6 +509,10 @@ public class Battleship{
     public static int getBestStreak(){
         return bestStreak;
     }
+    public static String[] getLeaderNames() {return leaderNames;}
+    public static int[] getLeaderScores(){return leaderScores;}
+    public static String[] getLeaders() {return leaders(leaderNames, leaderScores);}
+    public static void getLeadersUpdate() {updateLeaders(leaderNames,leaderScores,score);}
 
     //Give a score bonus based on developer conditions.
     public static void scoreBonus(int bonus){
@@ -543,4 +554,62 @@ public class Battleship{
         }
         return 0;
     }
+
+    //gets the entire leaderboard organized with scores & names
+    private static String[] leaders(String[] names, int[] scores) {
+        String[] leaders = new String[names.length];
+
+        for (int i = 0; i < names.length; i++){
+            leaders[i] = names[i] + " - "+scores[i];
+        }
+
+        return leaders;
+    }
+
+    //updates the leaderboards accordingly
+    private static void updateLeaders(String[] names, int[] scores, int finalScore){
+       int[] x = new int[scores.length+1];
+       String[] y = new String[names.length+1];
+
+       int[] newScores = new int[scores.length];
+       String[] newNames = new String[names.length];
+
+       if (finalScore > scores[scores.length-1]) {
+           for (int i=0; i<scores.length; i++) {
+               x[i] = scores[i];
+               y[i] = names[i];
+           }
+           x[scores.length] = finalScore;
+           y[names.length] = playerName;
+
+           Dictionary<Integer, String> dict= new Hashtable<>();
+           for (int i=0; i< x.length; i++) {
+               dict.put(x[i], y[i]);
+           }
+
+           Set<Integer> keys = ((Hashtable<Integer, String>) dict).keySet();
+           Iterator<Integer> itr = keys.iterator();
+
+           int count =0;
+           while (itr.hasNext()) {
+               Integer i = itr.next();
+               if (count < scores.length) {
+                   newScores[count] = i;
+                   newNames[count] = dict.get(i);
+               }
+               ++count;
+           }
+
+           //Arrays.sort(newScores, Collections.reverseOrder());
+           //FIND A WAY TO SORT THE NAMES ACCORDING TO THE SCORES???
+           //bookmarker: livingston
+
+           leaderNames = newNames;
+           leaderScores = newScores;
+
+
+       }
+
+    }
+
 }

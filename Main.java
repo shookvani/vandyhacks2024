@@ -7,14 +7,16 @@ public class Main {
         Battleship.placeShips();
         boolean playing = true;
 
-        String[] leaders = {"Iven - 310", "Schmidty bang bang - 295", "Good Luck Charlie -" +
-                " 285", "Matthew - 280", "Charles Edwards - 280", "Sean - 270" , "Vicky Calvin - " +
-                "265", "Nathan - 230"};
-
         GameSetup.println("Welcome to Battleship!\n");
-        GameSetup.leaderboard(leaders);
+        System.out.print("Please enter your player name: ");
+        Battleship.playerName = scan.nextLine();
+        System.out.println("");
+        GameSetup.leaderboard(Battleship.getLeaders());
         GameSetup.how();
         GameSetup.play(playing, scan);
+        Battleship.getLeadersUpdate();
+        GameSetup.leaderboard(Battleship.getLeaders());
         GameSetup.results();
     }
+
 }
