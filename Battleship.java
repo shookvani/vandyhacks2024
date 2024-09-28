@@ -1,3 +1,6 @@
+import java.util.*;
+import java.io.*;
+
 public class Battleship{
     //Instance variables and arrays
     private static String[][] board = new String[10][10];
@@ -18,7 +21,7 @@ public class Battleship{
     private static String[] leaderNames = {"Iven", "Schmidty bang bang", "Good Luck Charlie",
             "Matthew", "Charles Edwards", "Sean", "Vicky Calvin", "Nathan"};
     private static int[] leaderScores = {310,295, 285, 280, 275, 270, 265, 230};
-    private static int score = 245;
+    private static int score = 0;
     private static int hit = 0;
     private static int miss = 0;
     private static int streak = 0;
@@ -552,7 +555,7 @@ public class Battleship{
         return 0;
     }
 
-    //gets the entire leaderboard oragnized with scores & names
+    //gets the entire leaderboard organized with scores & names
     private static String[] leaders(String[] names, int[] scores) {
         String[] leaders = new String[names.length];
 
@@ -565,50 +568,44 @@ public class Battleship{
 
     //updates the leaderboards accordingly
     private static void updateLeaders(String[] names, int[] scores, int finalScore){
-        int placement = -1;
-        boolean change = false;
-        int[] scoreplaceholder = new int[scores.length + 1];
-        String[] nameplaceholder = new String[names.length + 1];
+       int[] x = new int[scores.length+1];
+       String[] y = new String[names.length+1];
 
-        for (int i = 0; i < scores.length; i++){
-            if (scores[i] < finalScore){
-                placement = i;
-                System.out.println(placement);
-                System.out.println(i);
-            }
-        }
+       int[] newScores = new int[scores.length];
+       String[] newNames = new String[names.length];
 
-        if ((placement != -1) && (placement < scores.length)) {
-            for (int i = 0; i < scores.length; i++){
-                if (i < placement - 1)
-                    scoreplaceholder[i] = scores[i];
-                else if (i == placement - 1)
-                    scoreplaceholder[i] = finalScore;
-                else
-                    scoreplaceholder[i] = scores[i - 1];
-            }
+       if (finalScore > scores[scores.length-1]) {
+           for (int i=0; i<scores.length; i++) {
+               x[i] = scores[i];
+               y[i] = names[i];
+           }
+           x[scores.length] = finalScore;
+           y[names.length] = playerName;
 
-            for (int i = 0; i < scores.length; i++){
-                leaderScores[i] = scoreplaceholder[i];
-            }
+           Dictionary<Integer, String> dict= new Hashtable<>();
+           for (int i=0; i< x.length; i++) {
+               dict.put(x[i], y[i]);
+           }
 
-        }
+           Set<Integer> keys = ((Hashtable<Integer, String>) dict).keySet();
+           Iterator<Integer> itr = keys.iterator();
 
-        placement = -1;
-        if ((placement != -1) && (placement < names.length)) {
-            for (int i = 0; i < names.length; i++){
-                if (i < placement - 1)
-                    nameplaceholder[i] = names[i];
-                else if (i == placement - 1)
-                    nameplaceholder[i] = playerName;
-                else
-                    nameplaceholder[i] = names[i - 1];
-            }
+           int count =0;
+           while (itr.hasNext()) {
+               Integer i = itr.next();
+               if (count < scores.length) {
+                   newScores[count] = i;
+                   newNames[count] = dict.get(i);
+               }
+               ++count;
+           }
 
-            for (int i = 0; i < names.length; i++){
-                leaderNames[i] = nameplaceholder[i];
-            }
-        }
+           leaderNames = newNames;
+           leaderScores = newScores;
+
+
+       }
 
     }
+
 }
