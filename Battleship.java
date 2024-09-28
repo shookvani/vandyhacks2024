@@ -14,7 +14,11 @@ public class Battleship{
     private static int[] one = new int[2]; //Dinghy
 
     //Game stats
-    private static int score = 0;
+    public static String playerName ="";
+    private static String[] leaderNames = {"Iven", "Schmidty bang bang", "Good Luck Charlie",
+            "Matthew", "Charles Edwards", "Sean", "Vicky Calvin", "Nathan"};
+    private static int[] leaderScores = {310,295, 285, 280, 275, 270, 265, 230};
+    private static int score = 245;
     private static int hit = 0;
     private static int miss = 0;
     private static int streak = 0;
@@ -474,7 +478,7 @@ public class Battleship{
 
         newSunks = 0;
         for(int i = 0; i < sunks.length; i++){
-            if (sunks[i] == true){
+            if (sunks[i]){
                 newSunks++;
             }
         }
@@ -502,6 +506,10 @@ public class Battleship{
     public static int getBestStreak(){
         return bestStreak;
     }
+    public static String[] getLeaderNames() {return leaderNames;}
+    public static int[] getLeaderScores(){return leaderScores;}
+    public static String[] getLeaders() {return leaders(leaderNames, leaderScores);}
+    public static void getLeadersUpdate() {updateLeaders(leaderNames,leaderScores,score);}
 
     //Give a score bonus based on developer conditions.
     public static void scoreBonus(int bonus){
@@ -542,5 +550,65 @@ public class Battleship{
             return 5;
         }
         return 0;
+    }
+
+    //gets the entire leaderboard oragnized with scores & names
+    private static String[] leaders(String[] names, int[] scores) {
+        String[] leaders = new String[names.length];
+
+        for (int i = 0; i < names.length; i++){
+            leaders[i] = names[i] + " - "+scores[i];
+        }
+
+        return leaders;
+    }
+
+    //updates the leaderboards accordingly
+    private static void updateLeaders(String[] names, int[] scores, int finalScore){
+        int placement = -1;
+        boolean change = false;
+        int[] scoreplaceholder = new int[scores.length + 1];
+        String[] nameplaceholder = new String[names.length + 1];
+
+        for (int i = 0; i < scores.length; i++){
+            if (scores[i] < finalScore){
+                placement = i;
+                System.out.println(placement);
+                System.out.println(i);
+            }
+        }
+
+        if ((placement != -1) && (placement < scores.length)) {
+            for (int i = 0; i < scores.length; i++){
+                if (i < placement - 1)
+                    scoreplaceholder[i] = scores[i];
+                else if (i == placement - 1)
+                    scoreplaceholder[i] = finalScore;
+                else
+                    scoreplaceholder[i] = scores[i - 1];
+            }
+
+            for (int i = 0; i < scores.length; i++){
+                leaderScores[i] = scoreplaceholder[i];
+            }
+
+        }
+
+        placement = -1;
+        if ((placement != -1) && (placement < names.length)) {
+            for (int i = 0; i < names.length; i++){
+                if (i < placement - 1)
+                    nameplaceholder[i] = names[i];
+                else if (i == placement - 1)
+                    nameplaceholder[i] = playerName;
+                else
+                    nameplaceholder[i] = names[i - 1];
+            }
+
+            for (int i = 0; i < names.length; i++){
+                leaderNames[i] = nameplaceholder[i];
+            }
+        }
+
     }
 }
