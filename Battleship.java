@@ -600,6 +600,10 @@ public class Battleship{
                ++count;
            }
 
+           //Arrays.sort(newScores, Collections.reverseOrder());
+           //FIND A WAY TO SORT THE NAMES ACCORDING TO THE SCORES???
+           //bookmarker: livingston
+
            leaderNames = newNames;
            leaderScores = newScores;
 
