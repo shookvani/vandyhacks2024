@@ -482,7 +482,7 @@ public class HardBattleship {
         }
         if (allSunks < newSunks){
             allSunks = newSunks;
-            System.out.println("YOU HAVE SUNK A SHIP! (+5 Score!)");
+            System.out.println("\nYOU\nHAVE\nSUNK\nA\nSHIP!!!!!!\n(+5 Score!)\n");
             score += 5;
         }       
         return allSunks;
