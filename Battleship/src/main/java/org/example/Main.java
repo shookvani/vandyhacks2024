@@ -8,7 +8,7 @@ public class Main {
         boolean playing = true;
         Database.connectDatabase();
 
-        GameSetup.println("Welcome to Battleship!\n");
+        GameSetup.println("\nWelcome to Battleship!\n");
         GameSetup.printLeaderboard();
 
         //Instructions
