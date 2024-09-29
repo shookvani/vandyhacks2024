@@ -13,8 +13,7 @@ public class HardBattleship {
     private static int[] two = new int[3]; //Destroyer
     private static int[] two2 = new int[3]; //Frigate
     private static int[] one = new int[2]; //Dinghy
-    private static int allShips = 7;
-    
+   
     //Game stats
     private static int score = 0;
     private static int hit = 0;

@@ -7,16 +7,21 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import static com.mongodb.client.model.Sorts.descending;
 
 public class Database {
-    private static String uri = "mongodb+srv://iven0202:OISCtT0MMpopGAK3@leaderboard.iwjnk.mongodb.net/?retryWrites=true&w=majority&appName=leaderboard";
-    private static MongoClient mongoClient = MongoClients.create(uri);
-    private static MongoDatabase database = mongoClient.getDatabase("leaderboard");
-    private static MongoCollection<Document> collection = database.getCollection("Users and Scores");
+    private static String uri;
+    private static MongoClient mongoClient;
+    private static MongoDatabase database;
+    private static MongoCollection<Document> collection;
     private static Bson filter;
+
+    public static void connectDatabase(){
+        uri = "mongodb+srv://iven0202:OISCtT0MMpopGAK3@leaderboard.iwjnk.mongodb.net/?retryWrites=true&w=majority&appName=leaderboard";
+        mongoClient = MongoClients.create(uri);
+        database = mongoClient.getDatabase("leaderboard");
+        collection = database.getCollection("Users and Scores");
+    }
 
     public static void printEasyLeaderboard () {
         int count = 1;

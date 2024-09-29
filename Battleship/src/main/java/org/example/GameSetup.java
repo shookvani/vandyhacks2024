@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class GameSetup {
 
     public static void printLeaderboard(){
-        GameSetup.println("Welcome to Battleship!\n");
-
         GameSetup.println("EASY LEADERBOARD");
         Database.printEasyLeaderboard();
         GameSetup.println("");

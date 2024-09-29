@@ -6,7 +6,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean playing = true;
+        Database.connectDatabase();
 
+        GameSetup.println("Welcome to Battleship!\n");
         GameSetup.printLeaderboard();
 
         //Instructions
@@ -24,6 +26,9 @@ public class Main {
         //Final results + insert to database!
         GameSetup.results(difficulty);
         GameSetup.insertLeaderboard(user,difficulty);
-        GameSetup.println("Your results were recorded.");
+        GameSetup.println("Your results were recorded.\n");
+
+        GameSetup.printLeaderboard();
+
     }
 }
