@@ -1,4 +1,4 @@
-package MavenForDatabase.src.main.java.org.example;
+package org.example;
 
 import java.util.Scanner;
 
@@ -6,15 +6,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean playing = true;
-        int finalScore = 0;
-        double finalHR = 0.0;
 
-        String[] leaders = {"Iven - 310", "Schmidty bang bang - 295", "Good Luck Charlie -" +
-                " 285", "Matthew - 280", "Charles Edwards - 280", "Sean - 270" , "Vicky Calvin - " +
-                "265", "Nathan - 230"};
+        GameSetup.printLeaderboard();
 
-        GameSetup.println("Welcome to Battleship!\n");
-        GameSetup.leaderboard(leaders);
+        //Instructions
         GameSetup.how();
 
         //Obtains username from user
@@ -26,23 +21,9 @@ public class Main {
         GameSetup.setAndPlace(difficulty);
         GameSetup.play(playing, scan, difficulty);
 
+        //Final results + insert to database!
         GameSetup.results(difficulty);
-
-        switch (difficulty){
-            case "Hard":
-                finalScore = HardBattleship.getScore();
-                finalHR = HardBattleship.hitrate();
-                break;
-            case "Medium":
-                finalScore = MediumBattleship.getScore();
-                finalHR = MediumBattleship.hitrate();
-                break;
-            case "Easy":
-                finalScore = EasyBattleship.getScore();
-                finalHR = EasyBattleship.hitrate();
-                break;
-        }
-        Database.insert(user, finalScore, finalHR, difficulty);
-
+        GameSetup.insertLeaderboard(user,difficulty);
+        GameSetup.println("Your results were recorded.");
     }
 }
