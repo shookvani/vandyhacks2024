@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Scanner;
 
 public class GameSetup {
@@ -7,12 +9,15 @@ public class GameSetup {
             case "Hard":
                 HardBattleship.gameBoard();
                 HardBattleship.placeShips();
+                break;
             case "Medium":
                 MediumBattleship.gameBoard();
                 MediumBattleship.placeShips();
+                break;
             case "Easy":
                 EasyBattleship.gameBoard();
                 EasyBattleship.placeShips();
+                break;
         }
     }
 
@@ -35,7 +40,7 @@ public class GameSetup {
     }
 
     public static String selectDifficulty(Scanner scan){
-        println("Pick your difficulty: Easy, Medium, Hard");
+        println("Pick your difficulty (Easy, Medium, Hard): ");
         String difficulty = scan.nextLine().toLowerCase();
 
         switch (difficulty){
@@ -68,6 +73,9 @@ public class GameSetup {
         while (playing) {
             switch (difficulty){
                 case "Hard":
+                    if (!difficulty.equals("Hard")){
+                        continue;
+                    }
                     println("");
                     HardBattleship.printBoard();
                     println("");

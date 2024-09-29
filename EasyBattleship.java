@@ -1,3 +1,5 @@
+package org.example;
+
 public class EasyBattleship{
     //Instance variables and arrays
     private static String[][] board = new String[5][5];

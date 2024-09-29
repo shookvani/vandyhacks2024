@@ -1,3 +1,5 @@
+package org.example;
+
 public class MediumBattleship{
     //Instance variables and arrays
     private static String[][] board = new String[8][8];

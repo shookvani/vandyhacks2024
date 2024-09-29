@@ -1,3 +1,5 @@
+package org.example;
+
 public class HardBattleship {
     //Instance variables and arrays
     private static String[][] board = new String[10][10];
