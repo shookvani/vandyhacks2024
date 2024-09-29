@@ -1,18 +1,37 @@
+package org.example;
+
 import java.util.Scanner;
 
 public class GameSetup {
+
+    public static void printLeaderboard(){
+        GameSetup.println("EASY LEADERBOARD");
+        Database.printEasyLeaderboard();
+        GameSetup.println("");
+
+        GameSetup.println("MEDIUM LEADERBOARD");
+        Database.printMediumLeaderboard();
+        GameSetup.println("");
+
+        GameSetup.println("HARD LEADERBOARD");
+        Database.printHardLeaderboard();
+        GameSetup.println("");
+    }
 
     public static void setAndPlace(String difficulty){
         switch (difficulty){
             case "Hard":
                 HardBattleship.gameBoard();
                 HardBattleship.placeShips();
+                break;
             case "Medium":
                 MediumBattleship.gameBoard();
                 MediumBattleship.placeShips();
+                break;
             case "Easy":
                 EasyBattleship.gameBoard();
                 EasyBattleship.placeShips();
+                break;
         }
     }
 
@@ -35,7 +54,7 @@ public class GameSetup {
     }
 
     public static String selectDifficulty(Scanner scan){
-        println("Pick your difficulty: Easy, Medium, Hard");
+        println("Pick your difficulty (Easy, Medium, Hard): ");
         String difficulty = scan.nextLine().toLowerCase();
 
         switch (difficulty){
@@ -51,14 +70,25 @@ public class GameSetup {
         }
     }
 
-    public static void leaderboard(String[] leaders) {
-        println("Leaderboard:");
+    public static void insertLeaderboard(String user, String diff) {
+        int finalScore = 0;
+        double finalHR = 0.0;
 
-        for (int i = 0; i < leaders.length; i++) {
-            println((i+1)+". "+leaders[i]);
-
+        switch (diff){
+            case "Hard":
+                finalScore = HardBattleship.getScore();
+                finalHR = HardBattleship.hitrate();
+                break;
+            case "Medium":
+                finalScore = MediumBattleship.getScore();
+                finalHR = MediumBattleship.hitrate();
+                break;
+            case "Easy":
+                finalScore = EasyBattleship.getScore();
+                finalHR = EasyBattleship.hitrate();
+                break;
         }
-        println("");
+        Database.insert(user, finalScore, finalHR, diff);
     }
 
     public static void play(boolean playing, Scanner scan, String difficulty) {
@@ -68,6 +98,9 @@ public class GameSetup {
         while (playing) {
             switch (difficulty){
                 case "Hard":
+                    if (!difficulty.equals("Hard")){
+                        continue;
+                    }
                     println("");
                     HardBattleship.printBoard();
                     println("");

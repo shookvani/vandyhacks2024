@@ -1,14 +1,15 @@
-public class MediumBattleship{
+package com.test.testOne;
+
+public class EasyBattleship{
     //Instance variables and arrays
-    private static String[][] board = new String[8][8];
-    private static boolean[][] ships = new boolean[8][8];
+    private static String[][] board = new String[5][5];
+    private static boolean[][] ships = new boolean[5][5];
     
     //All the ships
-    private static int[] five = new int[3]; //Carrier
     private static int[] four = new int[3]; //Battleship
     private static int[] three = new int[3]; //Cruiser
-    private static int[] three2 = new int[3]; //Submarine
     private static int[] two = new int[3]; //Destroyer
+    private static int[] two2 = new int[3]; //Frigate
     
     //Game stats
     private static int score = 0;
@@ -16,7 +17,7 @@ public class MediumBattleship{
     private static int miss = 0;
     private static int streak = 0;
     private static int bestStreak = 0;
-    private static boolean[] sunks = new boolean[5];
+    private static boolean[] sunks = new boolean[4];
     private static int newSunks = 0;
     private static int allSunks = 0;
     
@@ -31,7 +32,7 @@ public class MediumBattleship{
     
     // Print guessing board
     public static void printBoard(){
-        System.out.println("   0 1 2 3 4 5 6 7");
+        System.out.println("   0 1 2 3 4");
         for (int row = 0; row < board.length; row++){
             switch (row){
                 case 0:
@@ -49,15 +50,6 @@ public class MediumBattleship{
                 case 4:
                     System.out.print("E |");
                     break;
-                case 5:
-                    System.out.print("F |");
-                    break;
-                case 6:
-                    System.out.print("G |");
-                    break;
-                case 7:
-                    System.out.print("H |");
-                    break;
             }
             for (int col = 0; col < board[row].length; col++ ){
                 System.out.print(board[row][col] + "|");
@@ -67,156 +59,114 @@ public class MediumBattleship{
     }
     
     //Place ships
-    public static void placeShips() {
-        int rotate = (int) (Math.random() * 2);
+    public static void placeShips(){
+        int rotate = (int)(Math.random()*2);
         int row;
         int col;
 
-        //First Ship (two)
+        //First Ship (four)
+        rotate = (int)(Math.random()*2);
+        
         //0 is vertical
-        if (rotate == 0) {
-            row = (int) (Math.random() * 7);
-            col = (int) (Math.random() * 8);
+        if (rotate == 0){
+            row = (int)(Math.random()*2);
+            col = (int)(Math.random()*5);
             ships[row][col] = true;
-            ships[row + 1][col] = true;
+            ships[row+1][col] = true;
+            ships[row+2][col] = true;
+            ships[row+3][col] = true;
         }
         //1 is horizontal
         else {
-            row = (int) (Math.random() * 8);
-            col = (int) (Math.random() * 7);
+            row = (int)(Math.random()*5);
+            col = (int)(Math.random()*2);
             ships[row][col] = true;
-            ships[row][col + 1] = true;
+            ships[row][col+1] = true;
+            ships[row][col+2] = true;
+            ships[row][col+3] = true;
+        }
+        
+        four[0] = row;
+        four[1] = col;
+        four[2] = rotate;
+        
+        //Third Ship (three)
+        rotate = (int)(Math.random()*2);
+        
+        //0 is vertical
+        if (rotate == 0){
+            while (ships[row][col] || ships[row+1][col] || ships[row+2][col]){
+                row = (int)(Math.random()*3);
+                col = (int)(Math.random()*5);
+            }
+            
+            ships[row][col] = true;
+            ships[row+1][col] = true;
+            ships[row+2][col] = true;
+        }
+        //1 is horizontal
+        else {
+            while (ships[row][col] || ships[row][col+1] || ships[row][col+2]){
+                row = (int)(Math.random()*5);
+                col = (int)(Math.random()*3);
+            }
+            
+            ships[row][col] = true;
+            ships[row][col+1] = true;
+            ships[row][col+2] = true;
+        }
+        
+        three[0] = row;
+        three[1] = col;
+        three[2] = rotate;
+
+        //Fourth Ship (two)
+        //0 is vertical
+        if (rotate == 0){
+            while(ships[row][col] || ships[row+1][col]){
+                row = (int)(Math.random()*4);
+                col = (int)(Math.random()*5);
+            }
+            ships[row][col] = true;
+            ships[row+1][col] = true;
+        }
+        //1 is horizontal
+        else {
+            while (ships[row][col] || ships[row][col+1]){
+                row = (int)(Math.random()*5);
+                col = (int)(Math.random()*4);
+            }
+            ships[row][col] = true;
+            ships[row][col+1] = true;
         }
 
         two[0] = row;
         two[1] = col;
         two[2] = rotate;
 
-        //Second Ship (four)
-        rotate = (int) (Math.random() * 2);
-
+        //Fifth Ship (two2)
         //0 is vertical
-        if (rotate == 0) {
-            while (ships[row][col] || ships[row + 1][col] || ships[row + 2][col] || ships[row + 3][col]) {
-                row = (int) (Math.random() * 5);
-                col = (int) (Math.random() * 8);
+        if (rotate == 0){
+            while(ships[row][col] || ships[row+1][col]){
+                row = (int)(Math.random()*4);
+                col = (int)(Math.random()*5);
             }
-
             ships[row][col] = true;
-            ships[row + 1][col] = true;
-            ships[row + 2][col] = true;
-            ships[row + 3][col] = true;
+            ships[row+1][col] = true;
         }
         //1 is horizontal
         else {
-            while (ships[row][col] || ships[row][col + 1] || ships[row][col + 2] || ships[row][col + 3]) {
-                row = (int) (Math.random() * 8);
-                col = (int) (Math.random() * 5);
+            while (ships[row][col] || ships[row][col+1]){
+                row = (int)(Math.random()*5);
+                col = (int)(Math.random()*4);
             }
-
             ships[row][col] = true;
-            ships[row][col + 1] = true;
-            ships[row][col + 2] = true;
-            ships[row][col + 3] = true;
+            ships[row][col+1] = true;
         }
 
-        four[0] = row;
-        four[1] = col;
-        four[2] = rotate;
-
-        //Third Ship (three)
-        rotate = (int) (Math.random() * 2);
-
-        //0 is vertical
-        if (rotate == 0) {
-            while (ships[row][col] || ships[row + 1][col] || ships[row + 2][col]) {
-                row = (int) (Math.random() * 6);
-                col = (int) (Math.random() * 8);
-            }
-
-            ships[row][col] = true;
-            ships[row + 1][col] = true;
-            ships[row + 2][col] = true;
-        }
-        //1 is horizontal
-        else {
-            while (ships[row][col] || ships[row][col + 1] || ships[row][col + 2]) {
-                row = (int) (Math.random() * 8);
-                col = (int) (Math.random() * 6);
-            }
-
-            ships[row][col] = true;
-            ships[row][col + 1] = true;
-            ships[row][col + 2] = true;
-        }
-
-        three[0] = row;
-        three[1] = col;
-        three[2] = rotate;
-
-        //Forth Ship (three2)
-        rotate = (int) (Math.random() * 2);
-
-        //0 is vertical
-        if (rotate == 0) {
-            while (ships[row][col] || ships[row + 1][col] || ships[row + 2][col]) {
-                row = (int) (Math.random() * 6);
-                col = (int) (Math.random() * 8);
-            }
-
-            ships[row][col] = true;
-            ships[row + 1][col] = true;
-            ships[row + 2][col] = true;
-        }
-        //1 is horizontal
-        else {
-            while (ships[row][col] || ships[row][col + 1] || ships[row][col + 2]) {
-                row = (int) (Math.random() * 8);
-                col = (int) (Math.random() * 6);
-            }
-
-            ships[row][col] = true;
-            ships[row][col + 1] = true;
-            ships[row][col + 2] = true;
-        }
-
-        three2[0] = row;
-        three2[1] = col;
-        three2[2] = rotate;
-
-        //Fifth Ship (five)
-        rotate = (int) (Math.random() * 2);
-
-        //0 is vertical
-        if (rotate == 0) {
-            while (ships[row][col] || ships[row + 1][col] || ships[row + 2][col] || ships[row + 3][col] || ships[row + 4][col]) {
-                row = (int) (Math.random() * 4);
-                col = (int) (Math.random() * 8);
-            }
-
-            ships[row][col] = true;
-            ships[row + 1][col] = true;
-            ships[row + 2][col] = true;
-            ships[row + 3][col] = true;
-            ships[row + 4][col] = true;
-        }
-        //1 is horizontal
-        else {
-            while (ships[row][col] || ships[row][col + 1] || ships[row][col + 2] || ships[row][col + 3] || ships[row][col + 4]) {
-                row = (int) (Math.random() * 8);
-                col = (int) (Math.random() * 4);
-            }
-
-            ships[row][col] = true;
-            ships[row][col + 1] = true;
-            ships[row][col + 2] = true;
-            ships[row][col + 3] = true;
-            ships[row][col + 4] = true;
-        }
-
-        five[0] = row;
-        five[1] = col;
-        five[2] = rotate;
+        two2[0] = row;
+        two2[1] = col;
+        two2[2] = rotate;
     }
     
     public static String playerGuess(String tempRow, int tempCol){
@@ -241,17 +191,11 @@ public class MediumBattleship{
             case "F":
                 row = 5;
                 break;
-            case "G":
-                row = 6;
-                break;
-            case "H":
-                row = 7;
-                break;
             default:
                 return "Enter a valid coordinate.";
         }
         
-        if (tempCol > 7 || tempCol < 0){
+        if (tempCol > 4 || tempCol < 0){
             return "Enter a valid coordinate.";
         }
         
@@ -291,6 +235,18 @@ public class MediumBattleship{
         }
         return false;
     }
+    public static boolean sunkTwo2(){
+        if (two2[2] == 0){
+            if (board[two2[0]][two2[1]].equals("O") && board[two2[0] + 1][two2[1]].equals("O")){
+                return true;
+            }
+        } else if (two2[2] == 1){
+            if (board[two2[0]][two2[1]].equals("O") && board[two2[0]][two2[1] + 1].equals("O")){
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean sunkThree(){
         if (three[2] == 0){
             if (board[three[0]][three[1]].equals("O") && board[three[0] + 1][three[1]].equals("O") && board[three[0] + 2][three[1]].equals("O")){
@@ -298,18 +254,6 @@ public class MediumBattleship{
             } 
         } else if (three[2] == 1){
             if (board[three[0]][three[1]].equals("O") && board[three[0]][three[1] + 1].equals("O") && board[three[0]][three[1] + 2].equals("O")){
-                return true;
-            } 
-        }
-        return false;
-    }
-    public static boolean sunkThree2(){
-        if (three2[2] == 0){
-            if (board[three2[0]][three2[1]].equals("O") && board[three2[0] + 1][three2[1]].equals("O") && board[three2[0] + 2][three2[1]].equals("O")){
-                return true;
-            } 
-        } else if (three2[2] == 1){
-            if (board[three2[0]][three2[1]].equals("O") && board[three2[0]][three2[1] + 1].equals("O") && board[three2[0]][three2[1] + 2].equals("O")){
                 return true;
             } 
         }
@@ -327,18 +271,6 @@ public class MediumBattleship{
         }
         return false;
     }
-    public static boolean sunkFive(){
-        if (five[2] == 0){
-            if (board[five[0]][five[1]].equals("O") && board[five[0] + 1][five[1]].equals("O") && board[five[0] + 2][five[1]].equals("O") && board[five[0] + 3][five[1]].equals("O") && board[five[0]+4][five[1]].equals("O")){
-                return true;
-            } 
-        } else if (five[2] == 1){
-            if (board[five[0]][five[1]].equals("O") && board[five[0]][five[1] + 1].equals("O") && board[five[0]][five[1] + 2].equals("O") && board[five[0]][five[1] + 3].equals("O") && board[five[0]][five[1]+4].equals("O")){
-                return true;
-            } 
-        }
-        return false;
-    }
     
     //Method to print sunk ships
     public static void printSunk(){
@@ -346,17 +278,14 @@ public class MediumBattleship{
         if (sunkTwo()){
             System.out.print("Destroyer(2) | ");
         }
+        if (sunkTwo2()){
+            System.out.print("Frigate(2) | ");
+        }
         if (sunkThree()){
             System.out.print("Cruiser(3) | ");
         }
-        if(sunkThree2()){
-            System.out.print("Submarine(3) | ");
-        }
         if (sunkFour()){
             System.out.print("Battleship(4) | ");
-        }
-        if (sunkFive()){
-            System.out.print("Carrier(5) | ");
         }
         System.out.println();
     }
@@ -366,17 +295,14 @@ public class MediumBattleship{
         if (!sunkTwo()){
             System.out.print("Destroyer(2) | ");
         }
+        if (!sunkTwo2()){
+            System.out.print("Frigate(2) | ");
+        }
         if (!sunkThree()){
             System.out.print("Cruiser(3) | ");
         }
-        if(!sunkThree2()){
-            System.out.print("Submarine(3) | ");
-        }
         if (!sunkFour()){
             System.out.print("Battleship(4) | ");
-        }
-        if (!sunkFive()){
-            System.out.print("Carrier(5) | ");
         }
         System.out.println();
     }
@@ -384,10 +310,9 @@ public class MediumBattleship{
     //Method to check how many ships was sunk.
     public static int checkSunks(){
         sunks[0] = sunkTwo();
-        sunks[1] = sunkThree();
-        sunks[2] = sunkThree2();
+        sunks[1] = sunkTwo2();
+        sunks[2] = sunkThree();
         sunks[3] = sunkFour();
-        sunks[4] = sunkFive();
         
         newSunks = 0;
         for(int i = 0; i < sunks.length; i++){
@@ -397,7 +322,7 @@ public class MediumBattleship{
         }
         if (allSunks < newSunks){
             allSunks = newSunks;
-            System.out.println("YOU HAVE SUNK A SHIP! (+5 Score!)");
+            System.out.println("\nYOU\nHAVE\nSUNK\nA\nSHIP!!!!!!\n(+5 Score!)\n");
             score += 5;
         }       
         return allSunks;
@@ -422,7 +347,7 @@ public class MediumBattleship{
     
     //Give a score bonus based on developer conditions.
     public static void scoreBonus(int bonus){
-        if (!(allSunks == 5)){
+        if (!(allSunks == 4)){
             System.out.println("You did not sink all ships.");
         }
         score = score + bonus;
@@ -437,7 +362,7 @@ public class MediumBattleship{
         return ((int)(((double)hit/(hit+miss))*10000))/100.0;
     }
     public static int hitrateBonus(){
-        if (!(allSunks==5)){
+        if (!(allSunks==4)){
             return 0;
         }
         if (hitrate() > 50){
