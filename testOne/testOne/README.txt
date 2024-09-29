@@ -1,6 +1,3 @@
-This contains the code that integrates the battleship program and mongodb with the spring boot framework and tomcat servlet service to host a local web app. 
-It is not fully functional as there is a clash between the versions of the mongodb and the drivers used by the spring boot framework.
-
 Authors: Iven Chen, Shivani Manikandan, Jaycie Nguyen, Manu Thomas
 Date: 9/29/2024
 
